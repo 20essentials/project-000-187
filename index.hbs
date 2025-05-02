@@ -1,0 +1,39 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Slither</title>
+    <meta name='google' content='notranslate' />
+    <link rel='shortcut icon' href='assets/favicon.webp' type='image/x-icon' />
+    <link rel='stylesheet' href='style.css' />
+    <script
+      src='https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js'
+    ></script>
+  </head>
+
+  <body>
+    <script id='squares-template' type='text/x-handlebars-template'>
+      {{#each squares}}
+        <div class="square"></div>
+      {{/each}}
+    </script>
+
+    <script>
+      const N_SQUARES = 4000; const squaresData = Array.from({ length: N_SQUARES
+      }).map(() => ({})); const source =
+      document.getElementById("squares-template").innerHTML; const template =
+      Handlebars.compile(source); const html = template({ squares: squaresData });
+      document.body.innerHTML += html; const d = document; let lastElement = null;
+      const start = (e) => { const move = (e) => { const touch = e.touches[0];
+      const element = d.elementFromPoint(touch.clientX, touch.clientY); if
+      (!element) return; if (element && element.classList.contains('square')) { if
+      (lastElement && lastElement !== element) {
+      lastElement.classList.remove('active'); } element.classList.add('active');
+      lastElement = element; } }; const end = () => {
+      d.removeEventListener('touchmove', move); d.removeEventListener('touchend',
+      end); }; d.addEventListener('touchmove', move, { passive: true });
+      d.addEventListener('touchend', end, { passive: true }); };
+      d.addEventListener('touchstart', start, { passive: true });
+    </script>
+  </body>
+</html>
